@@ -33,4 +33,9 @@ public class WebConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/static/**","/","/index","/dashboard");*/
     }
+
+    public void add(){
+
+    }
+
 }
