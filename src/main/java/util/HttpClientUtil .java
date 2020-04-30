@@ -1,6 +1,7 @@
 package util;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
@@ -31,18 +32,15 @@ class HttpClientUtil  {
      */
     @RequestMapping("/sendTask")
     public @ResponseBody
-    JSONArray sendTask(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    JSONObject sendTask(HttpServletRequest request, HttpServletResponse response) throws IOException {
         EncryptUtils.getInstance();
         String requestString;
-        String token = request.getHeader("token");
         requestString = getBodyString(request.getReader());
         JSONObject jsonObject = JSONObject.parseObject(requestString);
-        String data = EncryptUtils.me.DESdecode(String.valueOf(jsonObject.get("data")), token);
-        JSONArray jsonObjects = JSONArray.parseArray(data);
-            if(jsonObjects.size() > 0){
+
+            if(jsonObject.size() > 0){
                 JSONObject dataObject2 = new JSONObject();
-                dataObject2.put("state",404);
-                dataObject2.put("total",0);
+                dataObject2.put("Code",0);
                 response.setContentType("application/Json");
                 try {
                     response.getWriter().write(JSONObject.toJSONString(dataObject2));
@@ -50,7 +48,8 @@ class HttpClientUtil  {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return  jsonObjects;
+                System.out.print(jsonObject);
+                return  jsonObject;
             }
         return null;
     }
