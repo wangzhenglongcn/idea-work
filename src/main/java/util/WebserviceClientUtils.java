@@ -28,7 +28,7 @@ public class WebserviceClientUtils {
 
             Service service = new Service();
             Call call = (Call) service.createCall();
-//            call.setTimeout(new Integer(20000));  //设置超时时间
+            call.setTimeout(new Integer(20000));  //设置超时时间
             call.setSOAPActionURI(soapActionURI);
             call.setTargetEndpointAddress(new java.net.URL(endpoint));  //设置目标接口的地址
             call.setEncodingStyle(encodingStyle);//设置传入服务端的字符集格式如utf-8等
