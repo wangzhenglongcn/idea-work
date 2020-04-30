@@ -1,7 +1,6 @@
 package util;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
@@ -23,52 +22,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 class HttpClientUtil  {
-
-
-    /**
-     * http  向我发送请求的接口
-     * @return 发送的数据
-     * @throws IOException
-     */
-    @RequestMapping("/sendTask")
-    public @ResponseBody
-    JSONObject sendTask(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        EncryptUtils.getInstance();
-        String requestString;
-        requestString = getBodyString(request.getReader());
-        JSONObject jsonObject = JSONObject.parseObject(requestString);
-
-            if(jsonObject.size() > 0){
-                JSONObject dataObject2 = new JSONObject();
-                dataObject2.put("Code",0);
-                response.setContentType("application/Json");
-                try {
-                    response.getWriter().write(JSONObject.toJSONString(dataObject2));
-                    response.getWriter().flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.print(jsonObject);
-                return  jsonObject;
-            }
-        return null;
-    }
-
-
-    public String getBodyString(BufferedReader br) {
-        String inputLine;
-        String str = "";
-        try {
-            while ((inputLine = br.readLine()) != null) {
-                str += inputLine;
-            }
-            br.close();
-        } catch (IOException e) {
-            System.out.println("IOException: " + e);
-        }
-        return str;
-    }
-
 
     public static void main(String[] arg) throws Exception {
         LocalDateTime now = LocalDateTime.now();
@@ -93,8 +46,8 @@ class HttpClientUtil  {
         param3.put("isAlarm", false);
         param1.put("infrared", param3);
         params.put("Data", param1);
-        System.out.println(params);
-        //callBgrsjk(params);
+        //System.out.println(params);
+        callBgrsjk(params,"http://localhost:8145/springboot-demo/sendTask");
     }
 
 
@@ -112,7 +65,6 @@ class HttpClientUtil  {
                     .setSocketTimeout(300 * 1000)
                     .setConnectTimeout(300 * 1000)
                     .build();
-            url = "http://URL:Port/地址";
             HttpPost post = new HttpPost(url);
             post.setConfig(requestConfig);
             StringEntity s = new StringEntity(json.toString());
@@ -120,9 +72,8 @@ class HttpClientUtil  {
             s.setContentType("application/json");//发送json数据需要设置contentType
             post.setEntity(s);
             HttpResponse response = httpClient.execute(post);
-            String content = EntityUtils.toString(response.getEntity());
-            System.out.println(content);
-            return content;
+            System.out.println("1111111"+response.toString());
+            return null;
         } catch (SocketTimeoutException e) {
             System.out.println("调用Dat+"
                     + ".aService接口超时,超时时间:" + 300
