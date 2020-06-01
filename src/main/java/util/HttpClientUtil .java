@@ -9,13 +9,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import util.EncryptUtils;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
@@ -72,7 +65,7 @@ class HttpClientUtil  {
             s.setContentType("application/json");//发送json数据需要设置contentType
             post.setEntity(s);
             HttpResponse response = httpClient.execute(post);
-            System.out.println("1111111"+response.toString());
+            System.out.println("1111111---------------- "+response.getEntity().getContentType().toString());
             return null;
         } catch (SocketTimeoutException e) {
             System.out.println("调用Dat+"
